@@ -1,0 +1,20 @@
+version: '3'
+services:
+  mongo-port-forward:
+    hostname: mongo-port-forward
+    image: kubectl-mongo-port-forward
+#    working_dir: /opt/mongo-port-forward
+#    command: bash /opt/mongo-port-forward/start.sh
+#    command: sleep 2h
+    environment:
+      POD1: mongod-0
+      POD2: mongod-1
+      POD3: mongod-2
+      NAMESPACE: db
+      KUBECONFIG: /opt/mongo-port-forward/k8s-config.yaml
+    ports:
+    - 37017:27017/tcp
+#    - 2222:22/tcp
+    restart: unless-stopped
+    volumes:
+    - ./mongo-port-forward:/opt/mongo-port-forward
